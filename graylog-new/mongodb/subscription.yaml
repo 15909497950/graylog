@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"monitoring.coreos.com/v1","kind":"ServiceMonitor","metadata":{"annotations":{},"labels":{"team.kubernetes.io/managed-by":"rig"},"name":"tsp-subscription-gateway","namespace":"prometheus"},"spec":{"endpoints":[{"bearerTokenSecret":{"key":""},"interval":"30s","path":"/actuator/prometheus","port":"13030-13030-tcp","relabelings":[{"action":"replace","sourceLabels":["__meta_kubernetes_service_label_app"],"targetLabel":"application"}]}],"namespaceSelector":{"matchNames":["default"]},"selector":{"matchLabels":{"app":"tsp-tsdp-outbound-router"}}}}
+  labels:
+    team.kubernetes.io/managed-by: rig
+  name: tsp-subscription-gateway
+  namespace: prometheus
+spec:
+  endpoints:
+  - bearerTokenSecret:
+      key: ""
+    interval: 30s
+    path: /actuator/prometheus
+    port: 8080-8080-tcp
+    relabelings:
+    - action: replace
+      sourceLabels:
+      - __meta_kubernetes_service_label_app
+      targetLabel: application
+  namespaceSelector:
+    matchNames:
+    - tsp
+  selector:
+    matchLabels:
+      app: tsp-subscription-gateway
